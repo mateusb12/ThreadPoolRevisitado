@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class RacingCondition implements SharedListManager{
     public static final List<Integer> sharedList = new ArrayList<Integer>();
@@ -16,7 +14,7 @@ public class RacingCondition implements SharedListManager{
     }
 
     public static void main(String[] args) throws InterruptedException {
-        ConcurrentInsertion insertionInstance = new ConcurrentInsertion();
+        CoreInsertion insertionInstance = new CoreInsertion();
         RacingCondition rc = new RacingCondition();
         insertionInstance.run(rc);
     }
