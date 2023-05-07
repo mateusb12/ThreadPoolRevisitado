@@ -42,10 +42,17 @@ public class DeadlockDemo {
         });
     }
 
+    public DeadlockDemo(DeadlockSolver solver) {
+        this.createThreadA();
+        this.createThreadB();
+        this.runAllThreads();
+        if (!solver.solve(lock1, lock2)) {
+            throw new RuntimeException("Deadlock detected");
+        }
+    }
+
     public static void main(String[] args) {
-        DeadlockDemo dm = new DeadlockDemo();
-        dm.createThreadA();
-        dm.createThreadB();
-        dm.runAllThreads();
+        DummyDeadlockSolver ds = new DummyDeadlockSolver();
+        DeadlockDemo dm = new DeadlockDemo(ds);
     }
 }
