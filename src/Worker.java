@@ -1,18 +1,32 @@
+import java.util.UUID;
+
 public class Worker extends Thread{
+    private final String id;
     boolean isWorking = true;
     Deck tasks;
 
     public Worker(Deck tasks) {
         this.tasks = tasks;
+        this.id = generateUniqueID();
+    }
+
+    public String getID() {
+        return this.id;
+    }
+
+    private String generateUniqueID() {
+        UUID uuid = UUID.randomUUID();
+        String uuidString = uuid.toString().replace("-", ""); // Remove hyphens
+        return uuidString.substring(0, 4); // Take the first 4 characters
     }
 
     public void run() {
         while (this.isWorking) {
             if (!tasks.isEmpty()) {
                 Task task = (Task) tasks.popFront();
-                System.out.println("Processing task: " + task.getTaskDescription());
+                System.out.println("Worker [" + this.id + "] is processing task: " + task.getTaskDescription());
             } else {
-                System.out.println("No more tasks to process.");
+                System.out.println("Worker [" + this.id + "] is waiting for tasks.");
                 isWorking = false;
             }
         }
