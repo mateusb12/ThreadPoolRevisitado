@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ThreadPoolRevisitado.iml" filepath="$PROJECT_DIR$/ThreadPoolRevisitado.iml" />
-      <module fileurl="file://$PROJECT_DIR$/deadlock/deadlock.iml" filepath="$PROJECT_DIR$/deadlock/deadlock.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mutex/mutex.iml" filepath="$PROJECT_DIR$/mutex/mutex.iml" />
     </modules>
   </component>
 </project>

@@ -6,6 +6,7 @@ public class ThreadPool {
     int nThreads;
 
     public ThreadPool(int nThread) {
+        System.out.println("Instantiating thread pool.");
         this.nThreads = nThread;
         this.requests = new Deck();
         this.tasks = buildTasks();
@@ -36,19 +37,23 @@ public class ThreadPool {
         return workers;
     }
 
-    public static void main(String[] args) {
-        ThreadPool tp = new ThreadPool(4);
-        tp.submit("String - 1");
-        tp.submit("String - 2");
-        tp.submit("String - 3");
-        tp.submit("String - 4");
-        tp.scheduler.run();
-        System.out.println("Starting thread pool.");
-    }
-
-    public void submit(String str) {
+    public void submitNewRequest(String str) {
         Request request = new Request(str);
         this.requests.push(request);
+    }
+
+    public static void pushNewRequests(ThreadPool threadPoolInstance, int requestAmount){
+        for (int i = 0; i < requestAmount; i++) {
+            String requestName = "Request " + (char) ('A' + i);
+            threadPoolInstance.submitNewRequest(requestName);
+            System.out.println("[Main] new request submitted - (" + requestName + ")");
+        }
+    }
+
+    public static void main(String[] args) {
+        ThreadPool tp = new ThreadPool(4);
+        pushNewRequests(tp, 7);
+        System.out.println("Finished instantiating Thread pool.");
     }
 }
 

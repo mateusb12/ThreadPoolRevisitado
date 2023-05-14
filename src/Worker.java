@@ -24,9 +24,9 @@ public class Worker extends Thread{
         while (this.isWorking) {
             if (!tasks.isEmpty()) {
                 Task task = (Task) tasks.popFront();
-                System.out.println("Worker [" + this.id + "] is processing task: " + task.getTaskDescription());
+                System.out.println("[Worker " + this.id + "] is processing task: " + task.getTaskDescription());
             } else {
-                System.out.println("Worker [" + this.id + "] is waiting for tasks.");
+                System.out.println("[Worker " + this.id + "] is waiting for tasks.");
                 isWorking = false;
             }
         }

@@ -56,7 +56,7 @@ public class Scheduler extends Thread {
             if (threadID_empty >= 0) {
                 Task stolenTask = (Task) this.tasks[threadID_full].popBack();
                 this.tasks[threadID_empty].push(stolenTask);
-                System.out.println("Scheduler: task stolen from thread " + threadID_full + " and given to thread " +
+                System.out.println("[Scheduler]: task stolen from thread " + threadID_full + " and given to thread " +
                         threadID_empty);
                 return true;
             }
@@ -76,7 +76,7 @@ public class Scheduler extends Thread {
     }
 
     public void run() {
-        System.out.println("Starting scheduler.");
+        System.out.println("[Scheduler] Starting scheduler.");
         Request request;
         Task task;
         int threadID;
@@ -103,7 +103,7 @@ public class Scheduler extends Thread {
          */
         int threadID;
         Task task;
-        System.out.println("Scheduler: new request received - " + request.load);
+        System.out.println("[Scheduler] new request received - (" + request.load + ")");
         task = new Task(request.getLoad());
         threadID = getRandomThread();
         synchronized (this.tasks[threadID]) {
