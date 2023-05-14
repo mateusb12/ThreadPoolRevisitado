@@ -6,7 +6,7 @@ public class ThreadPool {
     int nThreads;
 
     public ThreadPool(int nThread) {
-        System.out.println("Instantiating thread pool.");
+        System.out.println("[Main] Instantiating thread pool.");
         this.nThreads = nThread;
         this.requests = new Deck();
         this.tasks = buildTasks();
@@ -53,7 +53,7 @@ public class ThreadPool {
     public static void main(String[] args) {
         ThreadPool tp = new ThreadPool(4);
         pushNewRequests(tp, 7);
-        System.out.println("Finished instantiating Thread pool.");
+        System.out.println("[Main] Finished instantiating Thread pool.");
     }
 }
 

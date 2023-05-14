@@ -31,6 +31,42 @@ public class Queue {
         }
     }
 
+    public void remove(IntegerNode inputNode) {
+        int inputNodeValue = inputNode.value;
+        int currentNodeValue;
+        synchronized (this) {
+            IntegerNode currentNode = (IntegerNode) this.head;
+            currentNodeValue = currentNode.value;
+
+            while (currentNode != null && currentNodeValue != inputNodeValue) {
+                currentNode = (IntegerNode) currentNode.getNext();
+                if (currentNode != null) {
+                    currentNodeValue = currentNode.value;
+                }
+            }
+
+            if (currentNode != null) {
+                Node previousNode = currentNode.getPrevious();
+                Node nextNode = currentNode.getNext();
+                if (previousNode != null) {
+                    previousNode.setNext(nextNode);
+                } else {
+                    // The node to be removed is the head node
+                    this.head = nextNode;
+                }
+                if (nextNode != null) {
+                    nextNode.setPrevious(previousNode);
+                } else {
+                    // The node to be removed is the tail node
+                    this.tail = previousNode;
+                }
+                this.size--;
+            }
+        }
+    }
+
+
+
     public boolean isEmpty() {
         return this.head==null;
     }
