@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class DirectedGraph {
     Queue[] adjacencyList;
     int size;
@@ -27,7 +29,8 @@ public class DirectedGraph {
         boolean bothValidVertexes = isValidVertex(v) && isValidVertex(w);
         if (bothValidVertexes) {
             IntegerNode integerW = new IntegerNode(w);
-            this.adjacencyList[v].remove(integerW);
+            Queue nodeNeighbours = this.adjacencyList[v];
+            nodeNeighbours.remove(integerW);
         }
     }
 
@@ -35,47 +38,56 @@ public class DirectedGraph {
         return v >= 0 && v < size;
     }
 
-    public boolean hasCycle(int root) {
-        boolean[] visited = new boolean[size];
-        boolean[] recursionStack = new boolean[size];
-
-        return hasCycleDFS(root, visited, recursionStack);
-    }
-
-    private boolean hasCycleDFS(int vertex, boolean[] visited, boolean[] recursionStack) {
-        visited[vertex] = true;
-        recursionStack[vertex] = true;
-
-        Node currentNode = adjacencyList[vertex].head;
+    private int[] getNodeNeighbours(int nodeNumber) {
+        Queue nodeNeighbours = this.adjacencyList[nodeNumber];
+        int[] neighbours = new int[nodeNeighbours.size];
+        Node currentNode = nodeNeighbours.head;
+        int i = 0;
         while (currentNode != null) {
             if (currentNode instanceof IntegerNode) {
-                int adjacentVertex = ((IntegerNode) currentNode).value;
+                int neighbourVertex = ((IntegerNode) currentNode).value;
+                neighbours[i] = neighbourVertex;
+                i++;
+            }
+            currentNode = currentNode.getNext();
+        }
+        return neighbours;
+    }
+
+    public boolean hasCycle(int root) {
+        boolean[] visited = new boolean[this.size];
+        boolean[] recursionStack = new boolean[this.size];
+
+        Stack<Integer> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.pop();
+            visited[currentVertex] = true;
+            recursionStack[currentVertex] = true;
+
+            Node currentNode = adjacencyList[currentVertex].head;
+            int[] currentNodeNeighbours = getNodeNeighbours(currentVertex);
+            for (int adjacentVertex : currentNodeNeighbours) {
                 if (!visited[adjacentVertex]) {
-                    if (hasCycleDFS(adjacentVertex, visited, recursionStack)) {
-                        return true;
-                    }
+                    stack.push(adjacentVertex);
                 } else if (recursionStack[adjacentVertex]) {
                     return true;
                 }
             }
-            currentNode = currentNode.getNext();
+            recursionStack[currentVertex] = false;
         }
-        recursionStack[vertex] = false;
         return false;
     }
+
 
     public static void main(String[] args) {
         DirectedGraph graph = new DirectedGraph(5);
         graph.link(0, 1);
-        graph.link(0, 2);
-        graph.link(0, 3);
-        graph.link(1, 3);
+        graph.link(1, 2);
         graph.link(2, 3);
-        graph.link(3, 4);
-        graph.link(4, 0);
-        graph.unlink(0, 2);
-        graph.unlink(3, 4);
-        boolean hasCycle = graph.hasCycle(0);
+        graph.link(3, 0);
+        boolean hasCycle = graph.hasCycle(1);
         System.out.println(hasCycle);
     }
 }
