@@ -8,6 +8,10 @@ public class Task implements Node, Runnable{
         this.load = load;
     }
 
+    public String getTaskDescription() {
+        return this.load;
+    }
+
     @Override
     public Node getPrevious() {
         return this.previous;
@@ -39,9 +43,9 @@ public class Task implements Node, Runnable{
     }
 
     public static void main(String[] args) {
-        Task task1 = new Task("First Load");
-        Task task2 = new Task("Second Load");
-        Task task3 = new Task("Third Load");
+        Task task1 = new Task("Task A");
+        Task task2 = new Task("Task B");
+        Task task3 = new Task("Task C");
 
         task1.setNext(task2);
         task2.setPrevious(task1);

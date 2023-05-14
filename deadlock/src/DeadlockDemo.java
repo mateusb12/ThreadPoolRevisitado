@@ -1,4 +1,4 @@
-public class DeadlockDemo {
+public class DeadlockDemo implements DeadLockInterface{
     public static final Object lock1 = new Object();
     public static final Object lock2 = new Object();
 
@@ -42,17 +42,13 @@ public class DeadlockDemo {
         });
     }
 
-    public DeadlockDemo(DeadlockSolver solver) {
+    public DeadlockDemo() {
         this.createThreadA();
         this.createThreadB();
         this.runAllThreads();
-        if (!solver.solve(lock1, lock2)) {
-            throw new RuntimeException("Deadlock detected");
-        }
     }
 
     public static void main(String[] args) {
-        DummyDeadlockSolver ds = new DummyDeadlockSolver();
-        DeadlockDemo dm = new DeadlockDemo(ds);
+        DeadlockDemo dm = new DeadlockDemo();
     }
 }

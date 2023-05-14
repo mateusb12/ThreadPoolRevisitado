@@ -8,7 +8,13 @@ public class Worker extends Thread{
 
     public void run() {
         while (this.isWorking) {
-
+            if (!tasks.isEmpty()) {
+                Task task = (Task) tasks.popFront();
+                System.out.println("Processing task: " + task.getTaskDescription());
+            } else {
+                System.out.println("No more tasks to process.");
+                isWorking = false;
+            }
         }
     }
 
@@ -25,5 +31,4 @@ public class Worker extends Thread{
         Worker worker = new Worker(deck);
         worker.start();
     }
-
 }

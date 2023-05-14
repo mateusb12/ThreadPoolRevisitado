@@ -3,29 +3,32 @@ public class Queue {
     Node tail = null;
     int size = 0;
 
-    public void push(Node newNode) {
-        if (isEmpty()) {
-            this.head = newNode;
+    public void push(Node node) {
+        synchronized (this) {
+            if (isEmpty()) {
+                this.head = node;
+            } else {
+                this.tail.setNext(node);
+                node.setPrevious(this.tail);
+            }
+            this.tail = node;
+            this.size++;
         }
-        else {
-            this.tail.setNext(newNode);
-            newNode.setPrevious(this.tail);
-        }
-        this.tail = newNode;
-        this.size++;
     }
 
     public Node pop() {
-        Node node = this.head;
-        if (node != null) {
-            this.head = this.head.getNext();
-            if (this.size == 1) this.tail = null;
-            else {
-                this.head.setPrevious(null);
+        synchronized (this) {
+            Node node = this.head;
+            if (node != null) {
+                this.head = this.head.getNext();
+                if (this.size == 1) this.tail = null;
+                else {
+                    this.head.setPrevious(null);
+                }
+                this.size--;
             }
-            this.size--;
+            return node;
         }
-        return node;
     }
 
     public boolean isEmpty() {
@@ -40,6 +43,9 @@ public class Queue {
         q1.push(r1);
         q1.push(r2);
         q1.push(r3);
+        q1.pop();
+        q1.pop();
+        q1.pop();
         System.out.println(q1.isEmpty());
     }
 }

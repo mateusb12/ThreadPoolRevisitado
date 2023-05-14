@@ -1,19 +1,23 @@
 public class Deck extends Queue {
     public Node popFront() {
-        return this.pop();
+        synchronized (this) {
+            return this.pop();
+        }
     }
 
     public Node popBack() {
-        Node node = this.tail;
-        if (node != null) {
-            this.tail = this.tail.getPrevious();
-            if (this.size == 1) this.head = null;
-            else {
-                this.tail.setNext(null);
+        synchronized (this) {
+            Node node = this.tail;
+            if (node != null) {
+                this.tail = this.tail.getPrevious();
+                if (this.size == 1) this.head = null;
+                else {
+                    this.tail.setNext(null);
+                }
+                this.size--;
             }
-            this.size--;
+            return node;
         }
-        return node;
     }
 
     public static void main(String[] args) {
