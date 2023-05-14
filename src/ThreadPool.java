@@ -36,6 +36,16 @@ public class ThreadPool {
         return workers;
     }
 
+    public static void main(String[] args) {
+        ThreadPool tp = new ThreadPool(4);
+        tp.submit("String - 1");
+        tp.submit("String - 2");
+        tp.submit("String - 3");
+        tp.submit("String - 4");
+        tp.scheduler.run();
+        System.out.println("Starting thread pool.");
+    }
+
     public void submit(String str) {
         Request request = new Request(str);
         this.requests.push(request);
